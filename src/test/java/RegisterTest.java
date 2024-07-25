@@ -5,9 +5,7 @@ import static io.restassured.RestAssured.given;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import pojo.register.Register;
-import pojo.register.SuccessReg;
-import pojo.register.UnSuccessReg;
+import pojo.Register;
 import service.Specification;
 
 public class RegisterTest {
@@ -18,12 +16,12 @@ public class RegisterTest {
         Integer id = 4;
         String token = "QpwL5tke4Pnpja7X4";
         Register user = new Register("eve.holt@reqres.in", "pistol");
-        SuccessReg successReg = given()
+        Register successReg = given()
                 .body(user)
                 .when()
                 .post(REGISTER_URL)
                 .then().log().all()
-                .extract().as(SuccessReg.class);
+                .extract().as(Register.class);
 
 
         Assert.assertNotNull(successReg.getId());
@@ -38,12 +36,12 @@ public class RegisterTest {
         Specification.installSpecification(Specification.requestSpec(BASE_URL), Specification.responseSpec400());
         Register user = new Register("eve.holt@reqres.in", "");
 
-        UnSuccessReg unSuccessReg = given()
+        Register unSuccessReg = given()
                 .body(user)
                 .when()
                 .post(REGISTER_URL)
                 .then().log().all()
-                .extract().as(UnSuccessReg.class);
+                .extract().as(Register.class);
 
         Assert.assertEquals(unSuccessReg.getError(), "Missing password");
 

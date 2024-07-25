@@ -5,9 +5,7 @@ import static io.restassured.RestAssured.given;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import pojo.login.Login;
-import pojo.login.SuccessLogin;
-import pojo.login.UnSuccessLogin;
+import pojo.Login;
 import service.Specification;
 
 public class LoginTest {
@@ -17,14 +15,14 @@ public class LoginTest {
         Login user = new Login("eve.holt@reqres.in", "cityslicka");
 
         Specification.installSpecification(Specification.requestSpec(BASE_URL), Specification.responseSpecOK200());
-        SuccessLogin successLogin = given()
+        Login login = given()
                 .body(user)
                 .when()
                 .post(LOGIN_URL)
                 .then().log().all()
-                .extract().as(SuccessLogin.class);
+                .extract().as(Login.class);
 
-        Assert.assertNotNull(successLogin.getToken());
+        Assert.assertNotNull(login.getToken());
     }
 
     @Test
@@ -32,12 +30,12 @@ public class LoginTest {
         Login user = new Login("eve.holt@reqres.in", "");
 
         Specification.installSpecification(Specification.requestSpec(BASE_URL), Specification.responseSpec400());
-        UnSuccessLogin unSuccessLogin = given()
+        Login unSuccessLogin = given()
                 .body(user)
                 .when()
                 .post(LOGIN_URL)
                 .then().log().all()
-                .extract().as(UnSuccessLogin.class);
+                .extract().as(Login.class);
 
         Assert.assertNotNull(unSuccessLogin.getError(), "Missing password");
     }

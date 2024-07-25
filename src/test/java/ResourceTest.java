@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import pojo.resource.Resource;
+import pojo.Resource;
 import service.Specification;
 
 public class ResourceTest {
@@ -25,6 +25,8 @@ public class ResourceTest {
 
         List<Integer> years = resources.stream().map(Resource::getYear).toList();
         List<Integer> sortedYears = resources.stream().map(Resource::getYear).sorted().toList();
+
+        System.out.println(resources);
 
         Assert.assertEquals(sortedYears, years);
 

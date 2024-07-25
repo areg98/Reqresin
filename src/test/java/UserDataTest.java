@@ -5,12 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-
-import io.restassured.response.Response;
-import pojo.users.UserJob;
-import pojo.users.UserJobResponse;
 import service.Specification;
-import pojo.users.UserData;
+import pojo.UserData;
 
 public class UserDataTest {
 
@@ -78,13 +74,13 @@ public class UserDataTest {
     @Test
     public void userJobUpdate(){
         Specification.installSpecification(Specification.requestSpec(BASE_URL), Specification.responseSpecOK200());
-        UserJob userJob = new UserJob("morpheus", "zion resident");
-        UserJobResponse response = given()
+        UserData userJob = new UserData("morpheus", "zion resident");
+        UserData response = given()
                 .when()
                 .body(userJob)
                 .put(USER_URL + 2)
                 .then().log().all()
-                .extract().as(UserJobResponse.class);
+                .extract().as(UserData.class);
         System.out.println(response.getUpdatedAt().toString());
 
         UserData user = given()
